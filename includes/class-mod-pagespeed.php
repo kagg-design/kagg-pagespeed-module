@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Class Mod_PageSpeed.
  *
  * @class Mod_PageSpeed
- * version 1.1.1
+ * version 1.1.2
  */
 class Mod_PageSpeed {
 
@@ -37,13 +37,18 @@ class Mod_PageSpeed {
 	 */
 	public function __construct() {
 		// Init fields.
-		$this->version = '1.1.1';
+		$this->version     = '1.1.2';
 		$this->plugin_path = trailingslashit( plugin_dir_path( __DIR__ ) );
-		$this->plugin_url    = trailingslashit( plugin_dir_url( __DIR__ ) );
-		$this->options = get_option( 'mod_pagespeed_settings' );
+		$this->plugin_url  = trailingslashit( plugin_dir_url( __DIR__ ) );
+		$this->options     = get_option( 'mod_pagespeed_settings' );
 
 		add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
-		add_filter( 'plugin_action_links_' . plugin_basename( MOD_PAGESPEED_PLUGIN_FILE ), array( $this, 'add_settings_link' ), 10, 2 );
+		add_filter(
+			'plugin_action_links_' . plugin_basename( MOD_PAGESPEED_PLUGIN_FILE ),
+			array( $this, 'add_settings_link' ),
+			10,
+			2
+		);
 		add_action( 'admin_init', array( $this, 'setup_fields' ) );
 
 		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ), 100 );
@@ -51,7 +56,7 @@ class Mod_PageSpeed {
 		add_action( 'wp_ajax_mod_pagespeed', array( $this, 'ajax_action' ) );
 		add_action( 'init', array( $this, 'mod_pagespeed_arg' ) );
 		add_action( 'admin_init', array( $this, 'mod_pagespeed_arg' ) );
-}
+	}
 
 	/**
 	 * Add settings page to the menu.
@@ -96,11 +101,17 @@ class Mod_PageSpeed {
 	 * Setup options fields.
 	 */
 	public function setup_fields() {
-		add_settings_section( 'purge_section', __( 'Purge Cache', 'kagg-pagespeed-module' ),
-			array( $this, 'mod_pagespeed_purge_section' ), 'mod-pagespeed'
+		add_settings_section(
+			'purge_section',
+			__( 'Purge Cache', 'kagg-pagespeed-module' ),
+			array( $this, 'mod_pagespeed_purge_section' ),
+			'mod-pagespeed'
 		);
-		add_settings_section( 'development_section', __( 'Development Mode', 'kagg-pagespeed-module' ),
-			array( $this, 'mod_pagespeed_development_section' ), 'mod-pagespeed'
+		add_settings_section(
+			'development_section',
+			__( 'Development Mode', 'kagg-pagespeed-module' ),
+			array( $this, 'mod_pagespeed_development_section' ),
+			'mod-pagespeed'
 		);
 	}
 
@@ -149,14 +160,14 @@ class Mod_PageSpeed {
 	 * Development Mode section.
 	 */
 	public function mod_pagespeed_development_section() {
-		$title   = __( 'Development Mode', 'kagg-pagespeed-module' );
-		$text    = __( 'When development mode is on, all PageSpeed cache is bypassed.<br><br>This is done by adding ?ModPagespeed=off agrument to every site url.', 'kagg-pagespeed-module' );
+		$title    = __( 'Development Mode', 'kagg-pagespeed-module' );
+		$text     = __( 'When development mode is on, all PageSpeed cache is bypassed.<br><br>This is done by adding ?ModPagespeed=off agrument to every site url.', 'kagg-pagespeed-module' );
 		$dev_mode = $this->options['dev_mode'];
 		if ( 'true' === $dev_mode ) {
-			$active = 'active';
+			$active  = 'active';
 			$checked = 'checked=checked';
 		} else {
-			$active = '';
+			$active  = '';
 			$checked = '';
 		}
 		?>
@@ -182,9 +193,7 @@ class Mod_PageSpeed {
 	 * Load plugin text domain.
 	 */
 	public function load_textdomain() {
-		load_plugin_textdomain( 'kagg-pagespeed-module', false,
-			plugin_basename( $this->plugin_path ) . '/languages/'
-		);
+		load_plugin_textdomain( 'kagg-pagespeed-module', false, plugin_basename( $this->plugin_path ) . '/languages/' );
 	}
 
 	/**
@@ -192,11 +201,15 @@ class Mod_PageSpeed {
 	 */
 	public function admin_enqueue_scripts() {
 		wp_enqueue_script( 'mod-pagespeed-admin', $this->plugin_url . 'js/mod-pagespeed-admin.js', array( 'jquery' ), $this->version, true );
-		wp_localize_script( 'mod-pagespeed-admin', 'mod_pagespeed', array(
-			'ajax_url' => admin_url( 'admin-ajax.php' ),
-			'nonce' => wp_create_nonce( 'mod-pagespeed-nonce' ),
-		) );
-		wp_enqueue_style( 'mod-pagespeed-admin',  $this->plugin_url . 'css/mod-pagespeed-admin.css', array(), $this->version );
+		wp_localize_script(
+			'mod-pagespeed-admin',
+			'mod_pagespeed',
+			array(
+				'ajax_url' => admin_url( 'admin-ajax.php' ),
+				'nonce'    => wp_create_nonce( 'mod-pagespeed-nonce' ),
+			)
+		);
+		wp_enqueue_style( 'mod-pagespeed-admin', $this->plugin_url . 'css/mod-pagespeed-admin.css', array(), $this->version );
 	}
 
 	/**
@@ -219,7 +232,7 @@ class Mod_PageSpeed {
 				$this->purge_link( $link );
 				break;
 			case 'dev_mode':
-				$checked = sanitize_text_field( $_POST['checked'] );
+				$checked                   = sanitize_text_field( $_POST['checked'] );
 				$this->options['dev_mode'] = $checked;
 				if ( 'true' === $checked ) {
 					$mode = __( 'Development mode is on', 'kagg-pagespeed-module' );
@@ -240,40 +253,40 @@ class Mod_PageSpeed {
 	 * @param string $link a link to file or * to be purged
 	 */
 	private function purge_link( $link ) {
-		$result = wp_remote_head( site_url() . '/*.*', array(
-			'redirection' => 0,
-		) );
+		$result = wp_remote_head( site_url() . '/*.*', array( 'redirection' => 0 ) );
 		if ( is_wp_error( $result ) ) {
 			wp_send_json_error( $result->get_error_message() . ' - ' . $link );
 		}
 
 		$x_page_speed = wp_remote_retrieve_header( $result, 'x-page-speed' );
 		if ( '' === $x_page_speed ) {
-			wp_send_json_error( __( 'PageSpeed Module is not installed on your server. Plugin is useless.', 'kagg-pagespeed-module' ) );
+			wp_send_json_error(
+				__( 'PageSpeed Module is not installed on your server. Plugin is useless.', 'kagg-pagespeed-module' )
+			);
 		}
 
-		$cf = false;
+		$cf        = false;
 		$server_ip = '';
-		$server = wp_remote_retrieve_header( $result, 'server' );
+		$server    = wp_remote_retrieve_header( $result, 'server' );
 		if ( false !== strpos( $server, 'cloudflare' ) ) {
 			// Site is behind Cloudflare.
-			$cf = true;
+			$cf        = true;
 			$server_ip = $_SERVER['SERVER_ADDR'];
 		}
 
 		// Normal request looks like: curl -X PURGE -L 'http://domain.org/*.*'
 		// Request for Cloudflare looks like: curl -X PURGE -H 'host: domain.org' -L -k $server_ip/*.*
-		$url = $link;
+		$url  = $link;
 		$args = array(
 			'method'      => 'PURGE',
 			'redirection' => 0,
 		);
 		if ( $cf ) {
-			$link_array = wp_parse_url( $link );
-			$url = $link_array['scheme'] . '://' . $server_ip . $link_array['path'];
+			$link_array          = wp_parse_url( $link );
+			$url                 = $link_array['scheme'] . '://' . $server_ip . $link_array['path'];
 			$args['redirection'] = 5; // -L
-			$args['sslverify'] = false; // -k
-			$args['headers'] = 'host: ' . $link_array['host'];
+			$args['sslverify']   = false; // -k
+			$args['headers']     = 'host: ' . $link_array['host'];
 		};
 
 		$result = wp_remote_request( $url, $args );
@@ -307,14 +320,12 @@ class Mod_PageSpeed {
 				return;
 			} else {
 				$url = remove_query_arg( 'ModPagespeed' );
-				wp_redirect( $url , 301 );
+				wp_redirect( $url, 301 );
 			}
 		}
 		if ( 'true' === $dev_mode ) {
-			$url = add_query_arg( array(
-				'ModPagespeed' => 'off',
-			) );
-			wp_redirect( $url , 301 );
+			$url = add_query_arg( array( 'ModPagespeed' => 'off' ) );
+			wp_redirect( $url, 301 );
 		}
 	}
 

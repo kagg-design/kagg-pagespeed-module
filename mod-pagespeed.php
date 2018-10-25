@@ -4,10 +4,10 @@
  * Plugin URI:
  * Description: Support of PageSpeed Module for Apache or Nginx.
  * Author: KAGG Design
- * Version: 1.1.1
+ * Version: 1.1.2
  * Author URI: https://kagg.eu/en/
  * Requires at least: 4.4
- * Tested up to: 4.9
+ * Tested up to: 5.0
  *
  * Text Domain: kagg-pagespeed-module
  * Domain Path: /languages/
@@ -34,7 +34,7 @@ function init_mod_pagespeed_class() {
 
 	if ( ! isset( $plugin ) ) {
 		// Require main class of the plugin.
-		require_once( dirname( __FILE__ ) . '/includes/class-mod-pagespeed.php' );
+		require_once dirname( __FILE__ ) . '/includes/class-mod-pagespeed.php';
 
 		$plugin = new Mod_PageSpeed();
 	}
