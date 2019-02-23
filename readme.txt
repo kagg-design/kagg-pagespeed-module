@@ -3,8 +3,9 @@ Contributors: kaggdesign
 Donate link: https://kagg.eu/en/
 Tags: PageSpeed, PageSpeed Module, Mod PageSpeed, mod_pagespeed, Apache, Nginx, cache
 Requires at least: 4.4
-Tested up to: 5.0
-Stable tag: 1.1.2
+Tested up to: 5.1
+Stable tag: 1.1.3
+Requires PHP: 5.2.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,7 +23,7 @@ Plugin requires PageSpeed Module to be installed with your Apache or Nginx web s
 
 = Minimum Requirements =
 
-* PHP version 5.5 or greater (PHP 5.6 or greater is recommended)
+* PHP version 5.2.4 or greater (PHP 7.0 or greater is recommended)
 * MySQL version 5.0 or greater (MySQL 5.6 or greater is recommended)
 * PageSpeed Module for Apache or Nginx
 * In Apache config, the following directives must present:
@@ -57,6 +58,9 @@ If you get stuck, you can ask for help in the [PageSpeed Module Plugin Forum](ht
 1. The PageSpeed Module settings panel.
 
 == Changelog ==
+
+= 1.1.3 =
+* Tested with WordPress 5.2
 
 = 1.1.2 =
 * Tested with WordPress 5.0

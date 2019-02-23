@@ -2,6 +2,8 @@
 
 PageSpeed Module plugin supports WordPress installation under Apache or Nginx with PageSpeed Module. PageSpeed Module is an open-source modules for Apache and Nginx created by Google to help Make the Web Faster by rewriting web pages to reduce latency and bandwidth.
 
+![](./assets/banner-772x250.png)
+
 ## Contents
 
 The WordPress Plugin PageSpeed Module includes the following files:
@@ -57,8 +59,6 @@ A copy of the license is included in the root of the plugin’s directory. The f
 The WordPress Plugin PageSpeed Module is licensed under the GPL v2 or later; however, if you opt to use third-party code that is not compatible with v2, then you may need to switch to using code that is GPL v3 compatible.
 
 For reference, [here's a discussion](https://make.wordpress.org/themes/2013/03/04/licensing-note-apache-and-gpl/) that covers the Apache 2.0 License used by [Bootstrap](http://getbootstrap.com/2.3.2/).
-
-### Includes
 
 # Credits
 
