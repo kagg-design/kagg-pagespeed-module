@@ -20,7 +20,6 @@ class Mod_PageSpeed {
 	 * Mod_PageSpeed constructor.
 	 */
 	public function __construct() {
-		// Init fields.
 		$this->options = get_option( 'mod_pagespeed_settings' );
 
 		add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
@@ -254,12 +253,20 @@ class Mod_PageSpeed {
 	 * @param string $link a link to file or * to be purged.
 	 */
 	private function purge_link( $link ) {
-		$result = wp_remote_head( site_url() . '/*.*', array( 'redirection' => 0 ) );
+		$pagespeed_headers = array( 'x-mod-pagespeed', 'x-page-speed' );
+
+		$result = wp_remote_request( site_url() );
 		if ( is_wp_error( $result ) ) {
 			wp_send_json_error( $result->get_error_message() . ' - ' . $link );
 		}
 
-		$x_page_speed = wp_remote_retrieve_header( $result, 'x-page-speed' );
+		foreach ( $pagespeed_headers as $header ) {
+			$x_page_speed = wp_remote_retrieve_header( $result, $header );
+			if ( '' !== $x_page_speed ) {
+				break;
+			}
+		}
+
 		if ( '' === $x_page_speed ) {
 			wp_send_json_error(
 				__( 'PageSpeed Module is not installed on your server. Plugin is useless.', 'kagg-pagespeed-module' )
@@ -299,7 +306,6 @@ class Mod_PageSpeed {
 		} else {
 			wp_send_json_error( wp_remote_retrieve_response_message( $result ) . ' - ' . $link );
 		}
-
 	}
 
 	/**

@@ -4,10 +4,11 @@
  * Plugin URI:
  * Description: Support of PageSpeed Module for Apache or Nginx.
  * Author: KAGG Design
- * Version: 1.1.3
  * Author URI: https://kagg.eu/en/
  * Requires at least: 4.4
- * Tested up to: 5.1
+ * Tested up to: 5.2
+ * Version: 1.1.4
+ * Stable tag: 1.1.4
  *
  * Text Domain: kagg-pagespeed-module
  * Domain Path: /languages/
@@ -45,7 +46,7 @@ if ( ! defined( 'MOD_PAGESPEED_VERSION' ) ) {
 	/**
 	 * Plugin version.
 	 */
-	define( 'MOD_PAGESPEED_VERSION', '1.1.3' );
+	define( 'MOD_PAGESPEED_VERSION', '1.1.4' );
 }
 
 /**
