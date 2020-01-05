@@ -56,9 +56,7 @@ function init_mod_pagespeed_class() {
 	static $plugin;
 
 	if ( ! isset( $plugin ) ) {
-		// Require main class of the plugin.
-		require_once MOD_PAGESPEED_PATH . '/classes/class-mod-pagespeed.php';
-
+		require_once MOD_PAGESPEED_PATH . '/vendor/autoload.php';
 		$plugin = new Mod_PageSpeed();
 	}
 }

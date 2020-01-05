@@ -7,21 +7,22 @@
 	<exclude-pattern>*/.git/*</exclude-pattern>
 	<exclude-pattern>*/.make/*</exclude-pattern>
 	<exclude-pattern>*/assets/*</exclude-pattern>
-	<exclude-pattern>*/bin/*</exclude-pattern>
 	<exclude-pattern>*/css/*</exclude-pattern>
-	<exclude-pattern>*/dist/*</exclude-pattern>
+	<exclude-pattern>*/images/*</exclude-pattern>
 	<exclude-pattern>*/js/*</exclude-pattern>
 	<exclude-pattern>*/languages/*</exclude-pattern>
-	<exclude-pattern>*/lib/*</exclude-pattern>
-	<exclude-pattern>*/src/*</exclude-pattern>
-	<exclude-pattern>*/tests/*</exclude-pattern>
 	<exclude-pattern>*/vendor/*</exclude-pattern>
-	<exclude-pattern>*.js</exclude-pattern>
-	<exclude-pattern>*.mo</exclude-pattern>
-	<exclude-pattern>*.po</exclude-pattern>
-	<exclude-pattern>*.twig</exclude-pattern>
-	<exclude-pattern>*.css</exclude-pattern>
-	<exclude-pattern>*.scss</exclude-pattern>
+	<exclude-pattern>.distignore</exclude-pattern>
+	<exclude-pattern>.editorconfig</exclude-pattern>
+	<exclude-pattern>.gitignore</exclude-pattern>
+	<exclude-pattern>*.yml</exclude-pattern>
+	<exclude-pattern>*.md</exclude-pattern>
+	<exclude-pattern>*.json</exclude-pattern>
+	<exclude-pattern>*.lock</exclude-pattern>
+	<exclude-pattern>LICENSE</exclude-pattern>
+	<exclude-pattern>Makefile</exclude-pattern>
+	<exclude-pattern>*.xml</exclude-pattern>
+	<exclude-pattern>*.txt</exclude-pattern>
 
 	<!-- How to scan -->
 	<arg value="sp"/><!-- Show sniff and progress -->
