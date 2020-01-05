@@ -6,9 +6,9 @@
  * Author: KAGG Design
  * Author URI: https://kagg.eu/en/
  * Requires at least: 4.4
- * Tested up to: 5.2
- * Version: 1.1.4
- * Stable tag: 1.1.4
+ * Tested up to: 5.3
+ * Version: 1.1.5
+ * Stable tag: 1.1.5
  *
  * Text Domain: kagg-pagespeed-module
  * Domain Path: /languages/
@@ -46,7 +46,7 @@ if ( ! defined( 'MOD_PAGESPEED_VERSION' ) ) {
 	/**
 	 * Plugin version.
 	 */
-	define( 'MOD_PAGESPEED_VERSION', '1.1.4' );
+	define( 'MOD_PAGESPEED_VERSION', '1.1.5' );
 }
 
 /**
@@ -57,7 +57,7 @@ function init_mod_pagespeed_class() {
 
 	if ( ! isset( $plugin ) ) {
 		// Require main class of the plugin.
-		require_once MOD_PAGESPEED_PATH . '/includes/class-mod-pagespeed.php';
+		require_once MOD_PAGESPEED_PATH . '/classes/class-mod-pagespeed.php';
 
 		$plugin = new Mod_PageSpeed();
 	}

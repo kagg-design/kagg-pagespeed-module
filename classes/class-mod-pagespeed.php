@@ -22,20 +22,20 @@ class Mod_PageSpeed {
 	public function __construct() {
 		$this->options = get_option( 'mod_pagespeed_settings' );
 
-		add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
+		add_action( 'admin_menu', [ $this, 'add_settings_page' ] );
 		add_filter(
 			'plugin_action_links_' . plugin_basename( MOD_PAGESPEED_FILE ),
-			array( $this, 'add_settings_link' ),
+			[ $this, 'add_settings_link' ],
 			10,
 			2
 		);
-		add_action( 'admin_init', array( $this, 'setup_fields' ) );
+		add_action( 'admin_init', [ $this, 'setup_fields' ] );
 
-		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ), 100 );
-		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
-		add_action( 'wp_ajax_mod_pagespeed', array( $this, 'ajax_action' ) );
-		add_action( 'init', array( $this, 'mod_pagespeed_arg' ) );
-		add_action( 'admin_init', array( $this, 'mod_pagespeed_arg' ) );
+		add_action( 'plugins_loaded', [ $this, 'load_textdomain' ], 100 );
+		add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
+		add_action( 'wp_ajax_mod_pagespeed', [ $this, 'ajax_action' ] );
+		add_action( 'init', [ $this, 'mod_pagespeed_arg' ] );
+		add_action( 'admin_init', [ $this, 'mod_pagespeed_arg' ] );
 	}
 
 	/**
@@ -46,7 +46,7 @@ class Mod_PageSpeed {
 		$menu_title = __( 'PageSpeed', 'kagg-pagespeed-module' );
 		$capability = 'manage_options';
 		$slug       = 'mod-pagespeed';
-		$callback   = array( $this, 'mod_pagespeed_settings_page' );
+		$callback   = [ $this, 'mod_pagespeed_settings_page' ];
 		$icon       = MOD_PAGESPEED_URL . '/images/icon-16x16.png';
 		$icon       = '<img class="ps-menu-image" src="' . $icon . '">';
 		$menu_title = $icon . '<span class="ps-menu-title">' . $menu_title . '</span>';
@@ -83,13 +83,13 @@ class Mod_PageSpeed {
 		add_settings_section(
 			'purge_section',
 			__( 'Purge Cache', 'kagg-pagespeed-module' ),
-			array( $this, 'mod_pagespeed_purge_section' ),
+			[ $this, 'mod_pagespeed_purge_section' ],
 			'mod-pagespeed'
 		);
 		add_settings_section(
 			'development_section',
 			__( 'Development Mode', 'kagg-pagespeed-module' ),
-			array( $this, 'mod_pagespeed_development_section' ),
+			[ $this, 'mod_pagespeed_development_section' ],
 			'mod-pagespeed'
 		);
 	}
@@ -186,22 +186,22 @@ class Mod_PageSpeed {
 		wp_enqueue_script(
 			'mod-pagespeed-admin',
 			MOD_PAGESPEED_URL . '/js/mod-pagespeed-admin.js',
-			array( 'jquery' ),
+			[ 'jquery' ],
 			MOD_PAGESPEED_VERSION,
 			true
 		);
 		wp_localize_script(
 			'mod-pagespeed-admin',
 			'mod_pagespeed',
-			array(
+			[
 				'ajax_url' => admin_url( 'admin-ajax.php' ),
 				'nonce'    => wp_create_nonce( 'mod-pagespeed-nonce' ),
-			)
+			]
 		);
 		wp_enqueue_style(
 			'mod-pagespeed-admin',
 			MOD_PAGESPEED_URL . '/css/mod-pagespeed-admin.css',
-			array(),
+			[],
 			MOD_PAGESPEED_VERSION
 		);
 	}
@@ -253,7 +253,7 @@ class Mod_PageSpeed {
 	 * @param string $link a link to file or * to be purged.
 	 */
 	private function purge_link( $link ) {
-		$pagespeed_headers = array( 'x-mod-pagespeed', 'x-page-speed' );
+		$pagespeed_headers = [ 'x-mod-pagespeed', 'x-page-speed' ];
 
 		$result = wp_remote_request( site_url() );
 		if ( is_wp_error( $result ) ) {
@@ -285,10 +285,10 @@ class Mod_PageSpeed {
 		// Normal request looks like: curl -X PURGE -L 'http://domain.org/*.*'
 		// Request for Cloudflare looks like: curl -X PURGE -H 'host: domain.org' -L -k $server_ip/*.* .
 		$url  = $link;
-		$args = array(
+		$args = [
 			'method'      => 'PURGE',
 			'redirection' => 0,
-		);
+		];
 		if ( $cf ) {
 			$link_array          = wp_parse_url( $link );
 			$url                 = $link_array['scheme'] . '://' . $server_ip . $link_array['path'];
@@ -334,7 +334,7 @@ class Mod_PageSpeed {
 			}
 		}
 		if ( 'true' === $dev_mode ) {
-			$url = add_query_arg( array( 'ModPagespeed' => 'off' ) );
+			$url = add_query_arg( [ 'ModPagespeed' => 'off' ] );
 			wp_safe_redirect( $url, 301 );
 			exit();
 		}
@@ -348,12 +348,12 @@ class Mod_PageSpeed {
 	 * @return array|mixed Plugin links
 	 */
 	public function add_settings_link( $links ) {
-		$action_links = array(
+		$action_links = [
 			'settings' =>
 				'<a href="' . admin_url( 'options-general.php?page=mod-pagespeed' ) . '" aria-label="' .
 				esc_attr__( 'View PageSpeed Module settings', 'kagg-pagespeed-module' ) . '">' .
 				esc_html__( 'Settings', 'kagg-pagespeed-module' ) . '</a>',
-		);
+		];
 
 		return array_merge( $action_links, $links );
 	}
