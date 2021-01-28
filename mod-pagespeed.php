@@ -6,9 +6,9 @@
  * Author: KAGG Design
  * Author URI: https://kagg.eu/en/
  * Requires at least: 4.4
- * Tested up to: 5.5
- * Version: 1.2
- * Stable tag: 1.2
+ * Tested up to: 5.6
+ * Version: 1.3
+ * Stable tag: 1.3
  *
  * Text Domain: kagg-pagespeed-module
  * Domain Path: /languages/
@@ -28,12 +28,12 @@ if ( defined( 'MOD_PAGESPEED_VERSION' ) ) {
 /**
  * Plugin version.
  */
-define( 'MOD_PAGESPEED_VERSION', '1.2' );
+define( 'MOD_PAGESPEED_VERSION', '1.3' );
 
 /**
  * Path to the plugin dir.
  */
-define( 'MOD_PAGESPEED_PATH', dirname( __FILE__ ) );
+define( 'MOD_PAGESPEED_PATH', __DIR__ );
 
 /**
  * Plugin dir url.

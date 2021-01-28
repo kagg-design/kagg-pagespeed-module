@@ -9,12 +9,33 @@
  * Class Mod_PageSpeed.
  */
 class Mod_PageSpeed {
+
 	/**
 	 * Plugin options.
 	 *
 	 * @var array
 	 */
 	private $options;
+
+	/**
+	 * Admin screen id.
+	 */
+	const SCREEN_ID = 'settings_page_mod-pagespeed';
+
+	/**
+	 * Option page.
+	 */
+	const PAGE = 'mod-pagespeed';
+
+	/**
+	 * Ajax action name.
+	 */
+	const ACTION = 'mod-pagespeed-action';
+
+	/**
+	 * Admin script handle.
+	 */
+	const HANDLE = 'mod-pagespeed-admin';
 
 	/**
 	 * Mod_PageSpeed constructor.
@@ -45,7 +66,7 @@ class Mod_PageSpeed {
 		$page_title = __( 'PageSpeed', 'kagg-pagespeed-module' );
 		$menu_title = __( 'PageSpeed', 'kagg-pagespeed-module' );
 		$capability = 'manage_options';
-		$slug       = 'mod-pagespeed';
+		$slug       = self::PAGE;
 		$callback   = [ $this, 'mod_pagespeed_settings_page' ];
 		$icon       = MOD_PAGESPEED_URL . '/images/icon-16x16.png';
 		$icon       = '<img class="ps-menu-image" src="' . $icon . '">';
@@ -69,7 +90,7 @@ class Mod_PageSpeed {
 			<form action="<?php echo esc_url( admin_url( 'options.php' ) ); ?>" method="POST">
 				<?php
 				settings_fields( 'mod_pagespeed_group' ); // Hidden protection fields.
-				do_settings_sections( 'mod-pagespeed' ); // Sections with options.
+				do_settings_sections( self::PAGE ); // Sections with options.
 				?>
 			</form>
 		</div>
@@ -84,13 +105,13 @@ class Mod_PageSpeed {
 			'purge_section',
 			__( 'Purge Cache', 'kagg-pagespeed-module' ),
 			[ $this, 'mod_pagespeed_purge_section' ],
-			'mod-pagespeed'
+			self::PAGE
 		);
 		add_settings_section(
 			'development_section',
 			__( 'Development Mode', 'kagg-pagespeed-module' ),
 			[ $this, 'mod_pagespeed_development_section' ],
-			'mod-pagespeed'
+			self::PAGE
 		);
 	}
 
@@ -183,27 +204,42 @@ class Mod_PageSpeed {
 	 * Enqueue plugin scripts.
 	 */
 	public function admin_enqueue_scripts() {
+		if ( ! $this->is_options_screen() ) {
+			return;
+		}
+
 		wp_enqueue_script(
-			'mod-pagespeed-admin',
+			self::HANDLE,
 			MOD_PAGESPEED_URL . '/js/mod-pagespeed-admin.js',
 			[ 'jquery' ],
 			MOD_PAGESPEED_VERSION,
 			true
 		);
 		wp_localize_script(
-			'mod-pagespeed-admin',
+			self::HANDLE,
 			'mod_pagespeed',
 			[
 				'ajax_url' => admin_url( 'admin-ajax.php' ),
-				'nonce'    => wp_create_nonce( 'mod-pagespeed-nonce' ),
+				'nonce'    => wp_create_nonce( self::ACTION ),
 			]
 		);
 		wp_enqueue_style(
-			'mod-pagespeed-admin',
+			self::HANDLE,
 			MOD_PAGESPEED_URL . '/css/mod-pagespeed-admin.css',
 			[],
 			MOD_PAGESPEED_VERSION
 		);
+	}
+
+	/**
+	 * Is current admin screen the plugin options screen.
+	 *
+	 * @return bool
+	 */
+	private function is_options_screen() {
+		$current_screen = get_current_screen();
+
+		return $current_screen && ( 'options' === $current_screen->id || self::SCREEN_ID === $current_screen->id );
 	}
 
 	/**
@@ -213,7 +249,7 @@ class Mod_PageSpeed {
 		if (
 		! wp_verify_nonce(
 			filter_input( INPUT_POST, 'nonce', FILTER_SANITIZE_STRING ),
-			'mod-pagespeed-nonce'
+			self::ACTION
 		)
 		) {
 			wp_send_json_error( __( 'Bad nonce!', 'kagg-pagespeed-module' ) );
@@ -350,7 +386,7 @@ class Mod_PageSpeed {
 	public function add_settings_link( $links ) {
 		$action_links = [
 			'settings' =>
-				'<a href="' . admin_url( 'options-general.php?page=mod-pagespeed' ) . '" aria-label="' .
+				'<a href="' . admin_url( 'options-general.php?page=' . self::PAGE ) . '" aria-label="' .
 				esc_attr__( 'View PageSpeed Module settings', 'kagg-pagespeed-module' ) . '">' .
 				esc_html__( 'Settings', 'kagg-pagespeed-module' ) . '</a>',
 		];

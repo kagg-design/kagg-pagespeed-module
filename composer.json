@@ -50,5 +50,8 @@
     "classmap": [
       "classes"
     ]
+  },
+  "scripts": {
+    "phpcs": "phpcs --colors --standard=phpcs.xml"
   }
 }
