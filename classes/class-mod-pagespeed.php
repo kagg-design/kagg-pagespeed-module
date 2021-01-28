@@ -55,8 +55,7 @@ class Mod_PageSpeed {
 		add_action( 'plugins_loaded', [ $this, 'load_textdomain' ], 100 );
 		add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
 		add_action( 'wp_ajax_mod_pagespeed', [ $this, 'ajax_action' ] );
-		add_action( 'init', [ $this, 'mod_pagespeed_arg' ] );
-		add_action( 'admin_init', [ $this, 'mod_pagespeed_arg' ] );
+		add_action( 'parse_request', [ $this, 'mod_pagespeed_arg' ], 20 );
 	}
 
 	/**
@@ -348,9 +347,10 @@ class Mod_PageSpeed {
 	 * For any site url, add or remove ?ModPagespeed argument.
 	 */
 	public function mod_pagespeed_arg() {
-		if ( wp_doing_ajax() ) {
+		if ( wp_doing_ajax() || is_admin() || $this->is_rest() ) {
 			return;
 		}
+
 		$dev_mode = $this->options['dev_mode'];
 
 		// It is impossible to set nonce for any WordPress url.
@@ -360,20 +360,33 @@ class Mod_PageSpeed {
 			$mod_pagespeed = '';
 		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
-		if ( $mod_pagespeed ) {
-			if ( ( 'off' === $mod_pagespeed ) && ( 'true' === $dev_mode ) ) {
-				return;
-			} else {
-				$url = remove_query_arg( 'ModPagespeed' );
-				wp_safe_redirect( $url, 301 );
-				exit();
-			}
+		if ( ( 'off' === $mod_pagespeed ) && ( 'true' === $dev_mode ) ) {
+			return;
 		}
+
+		$url = null;
+
+		if ( $mod_pagespeed ) {
+			$url = remove_query_arg( 'ModPagespeed' );
+		}
+
 		if ( 'true' === $dev_mode ) {
 			$url = add_query_arg( [ 'ModPagespeed' => 'off' ] );
+		}
+
+		if ( null !== $url ) {
 			wp_safe_redirect( $url, 301 );
 			exit();
 		}
+	}
+
+	/**
+	 * Check if it is a REST request
+	 *
+	 * @return bool
+	 */
+	private function is_rest() {
+		return defined( 'REST_REQUEST' ) && REST_REQUEST;
 	}
 
 	/**

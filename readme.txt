@@ -4,7 +4,7 @@ Donate link: https://kagg.eu/en/
 Tags: PageSpeed Module, Mod PageSpeed, mod_pagespeed, Apache, Nginx, cache
 Requires at least: 4.4
 Tested up to: 5.6
-Stable tag: 1.3
+Stable tag: 1.3.1
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -58,6 +58,9 @@ If you get stuck, you can ask for help in the [PageSpeed Module Plugin Forum](ht
 1. The PageSpeed Module settings panel.
 
 == Changelog ==
+
+= 1.3.1 =
+* Fixed bug with REST requests in Development mode.
 
 = 1.3 =
 * Tested with WordPress 5.6
