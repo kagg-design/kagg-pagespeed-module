@@ -1,20 +1,24 @@
 <?php
 /**
- * Plugin Name: PageSpeed Module
- * Plugin URI:
- * Description: Support of PageSpeed Module for Apache or Nginx.
- * Author: KAGG Design
- * Author URI: https://kagg.eu/en/
- * Requires at least: 4.4
- * Tested up to: 5.6
- * Version: 1.3.1
- * Stable tag: 1.3.1
+ * PageSpeed Module
  *
- * Text Domain: kagg-pagespeed-module
- * Domain Path: /languages/
+ * @package              kagg-pagespeed-module
+ * @author               KAGG Design
+ * @license              GPL-2.0-or-later
+ * @wordpress-plugin
  *
- * @package kagg-pagespeed-module
- * @author  KAGG Design
+ * Plugin Name:          PageSpeed Module
+ * Plugin URI:           https://wordpress.org/plugins/kagg-pagespeed-module/
+ * Description:          Support of PageSpeed Module for Apache or Nginx.
+ * Version:              1.4
+ * Requires at least:    4.4
+ * Requires PHP:         5.6
+ * Author:               KAGG Design
+ * Author URI:           https://kagg.eu/en/
+ * License:              GPL v2 or later
+ * License URI:          https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain:          kagg-pagespeed-module
+ * Domain Path:          /languages/
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
