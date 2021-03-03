@@ -203,6 +203,17 @@ class Mod_PageSpeed {
 	 * Enqueue plugin scripts.
 	 */
 	public function admin_enqueue_scripts() {
+		if ( ! is_admin() ) {
+			return;
+		}
+
+		wp_enqueue_style(
+			self::HANDLE,
+			MOD_PAGESPEED_URL . '/css/mod-pagespeed-admin.css',
+			[],
+			MOD_PAGESPEED_VERSION
+		);
+
 		if ( ! $this->is_options_screen() ) {
 			return;
 		}
@@ -221,12 +232,6 @@ class Mod_PageSpeed {
 				'ajax_url' => admin_url( 'admin-ajax.php' ),
 				'nonce'    => wp_create_nonce( self::ACTION ),
 			]
-		);
-		wp_enqueue_style(
-			self::HANDLE,
-			MOD_PAGESPEED_URL . '/css/mod-pagespeed-admin.css',
-			[],
-			MOD_PAGESPEED_VERSION
 		);
 	}
 
