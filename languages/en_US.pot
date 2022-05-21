@@ -50,7 +50,7 @@ msgstr ""
 #: includes/class-mod-pagespeed.php:117
 msgid ""
 "Clear entire PageSpeed cache on site. This action fetches fresh versions of "
-"all pages, images, and scripts on your web site.<br><br>Please note that "
+"all pages, images, and scripts on your website.<br><br>Please note that "
 "PageSpeed module will take some time to re-create cache after several page "
 "visits."
 msgstr ""
@@ -58,7 +58,7 @@ msgstr ""
 #: includes/class-mod-pagespeed.php:153
 msgid ""
 "When development mode is on, all PageSpeed cache is bypassed.<br><br>This "
-"is done by adding ?ModPagespeed=off agrument to every site url."
+"is done by adding ?ModPagespeed=off argument to every site url."
 msgstr ""
 
 #: includes/class-mod-pagespeed.php:207

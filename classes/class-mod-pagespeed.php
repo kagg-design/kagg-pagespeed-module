@@ -124,7 +124,7 @@ class Mod_PageSpeed {
 		$this->card_section( $title, $text, $button_text, 'purge_styles' );
 
 		$title       = __( 'Purge Entire Cache', 'kagg-pagespeed-module' );
-		$text        = __( 'Clear entire PageSpeed cache on site. This action fetches fresh versions of all pages, images, and scripts on your web site.<br><br>Please note that PageSpeed module will take some time to re-create cache after several page visits.', 'kagg-pagespeed-module' );
+		$text        = __( 'Clear entire PageSpeed cache on site. This action fetches fresh versions of all pages, images, and scripts on your website.<br><br>Please note that PageSpeed module will take some time to re-create cache after several page visits.', 'kagg-pagespeed-module' );
 		$button_text = __( 'Purge Entire Cache', 'kagg-pagespeed-module' );
 		$this->card_section( $title, $text, $button_text, 'purge_entire_cache' );
 	}
@@ -160,15 +160,17 @@ class Mod_PageSpeed {
 	 */
 	public function mod_pagespeed_development_section() {
 		$title    = __( 'Development Mode', 'kagg-pagespeed-module' );
-		$text     = __( 'When development mode is on, all PageSpeed cache is bypassed.<br><br>This is done by adding ?ModPagespeed=off agrument to every site url.', 'kagg-pagespeed-module' );
+		$text     = __( 'When development mode is on, all PageSpeed cache is bypassed.<br><br>This is done by adding ?ModPagespeed=off argument to every site url.', 'kagg-pagespeed-module' );
 		$dev_mode = $this->options['dev_mode'];
+
+		$active  = '';
+		$checked = '';
+
 		if ( 'true' === $dev_mode ) {
 			$active  = 'active';
 			$checked = 'checked=checked';
-		} else {
-			$active  = '';
-			$checked = '';
 		}
+
 		?>
 		<section class="ps-card">
 			<div class="ps-card-section">
@@ -316,6 +318,7 @@ class Mod_PageSpeed {
 		$cf        = false;
 		$server_ip = '';
 		$server    = wp_remote_retrieve_header( $result, 'server' );
+
 		if ( false !== strpos( $server, 'cloudflare' ) ) {
 			// Site is behind Cloudflare.
 			$cf        = true;
@@ -329,23 +332,26 @@ class Mod_PageSpeed {
 			'method'      => 'PURGE',
 			'redirection' => 0,
 		];
+
 		if ( $cf ) {
 			$link_array          = wp_parse_url( $link );
 			$url                 = $link_array['scheme'] . '://' . $server_ip . $link_array['path'];
 			$args['redirection'] = 5; // -L
 			$args['sslverify']   = false; // -k
 			$args['headers']     = 'host: ' . $link_array['host'];
-		};
+		}
 
 		$result = wp_remote_request( $url, $args );
+
 		if ( is_wp_error( $result ) ) {
 			wp_send_json_error( $result->get_error_message() . ' - ' . $link );
 		}
+
 		if ( 200 === $result['response']['code'] ) {
 			wp_send_json_success( esc_html( wp_remote_retrieve_body( $result ) ) . ' - ' . $link );
-		} else {
-			wp_send_json_error( wp_remote_retrieve_response_message( $result ) . ' - ' . $link );
 		}
+
+		wp_send_json_error( wp_remote_retrieve_response_message( $result ) . ' - ' . $link );
 	}
 
 	/**
@@ -399,7 +405,7 @@ class Mod_PageSpeed {
 	 *
 	 * @param array $links Plugin links.
 	 *
-	 * @return array|mixed Plugin links
+	 * @return array Plugin links
 	 */
 	public function add_settings_link( $links ) {
 		$action_links = [
