@@ -5,6 +5,9 @@
 /.distignore
 /.editorconfig
 /.gitignore
+/.phpcs.cache
+/.phpunit.result.cache
+/.pnp.*
 /CHANGELOG.md
 /Makefile
 /README.md

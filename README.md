@@ -2,7 +2,7 @@
 
 PageSpeed Module plugin supports WordPress installation under Apache or Nginx with PageSpeed Module. PageSpeed Module is an open-source modules for Apache and Nginx created by Google to help Make the Web Faster by rewriting web pages to reduce latency and bandwidth.
 
-![](./assets/banner-772x250.png)
+![](./wordpress-org/banner-772x250.png)
 
 ## Contents
 
