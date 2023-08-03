@@ -65,7 +65,7 @@ class Main {
 
 		add_action( 'plugins_loaded', [ $this, 'load_textdomain' ], 100 );
 		add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
-		add_action( 'wp_ajax_mod_pagespeed', [ $this, 'ajax_action' ] );
+		add_action( 'wp_ajax_' . self::ACTION, [ $this, 'ajax_action' ] );
 		add_action( 'parse_request', [ $this, 'mod_pagespeed_arg' ], 20 );
 	}
 
@@ -78,7 +78,7 @@ class Main {
 		$capability = 'manage_options';
 		$slug       = self::PAGE;
 		$callback   = [ $this, 'mod_pagespeed_settings_page' ];
-		$icon       = MOD_PAGESPEED_URL . '/images/icon-16x16.png';
+		$icon       = MOD_PAGESPEED_URL . '/assets/images/icon-16x16.png';
 		$icon       = '<img class="ps-menu-image" src="' . $icon . '">';
 		$menu_title = $icon . '<span class="ps-menu-title">' . $menu_title . '</span>';
 		add_options_page( $page_title, $menu_title, $capability, $slug, $callback );
@@ -222,7 +222,7 @@ class Main {
 
 		wp_enqueue_style(
 			self::HANDLE,
-			MOD_PAGESPEED_URL . '/css/mod-pagespeed-admin.css',
+			MOD_PAGESPEED_URL . '/assets/css/admin.css',
 			[],
 			MOD_PAGESPEED_VERSION
 		);
@@ -233,17 +233,18 @@ class Main {
 
 		wp_enqueue_script(
 			self::HANDLE,
-			MOD_PAGESPEED_URL . '/js/mod-pagespeed-admin.js',
+			MOD_PAGESPEED_URL . '/assets/js/admin.js',
 			[ 'jquery' ],
 			MOD_PAGESPEED_VERSION,
 			true
 		);
 		wp_localize_script(
 			self::HANDLE,
-			'ModPageSpeed',
+			'ModPagespeed',
 			[
-				'ajax_url' => admin_url( 'admin-ajax.php' ),
-				'nonce'    => wp_create_nonce( self::ACTION ),
+				'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+				'action'  => self::ACTION,
+				'nonce'   => wp_create_nonce( self::ACTION ),
 			]
 		);
 	}
