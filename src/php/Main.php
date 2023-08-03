@@ -1,14 +1,16 @@
 <?php
 /**
- * Mod_PageSpeed class file.
+ * Main class file.
  *
  * @package kagg-pagespeed-module
  */
 
+namespace KAGG\PagespeedModule;
+
 /**
- * Class Mod_PageSpeed.
+ * Class Main.
  */
-class Mod_PageSpeed {
+class Main {
 
 	/**
 	 * Plugin options.
@@ -38,11 +40,20 @@ class Mod_PageSpeed {
 	const HANDLE = 'mod-pagespeed-admin';
 
 	/**
-	 * Mod_PageSpeed constructor.
+	 * Init class.
 	 */
-	public function __construct() {
+	public function init() {
 		$this->options = get_option( 'mod_pagespeed_settings' );
 
+		$this->hooks();
+	}
+
+	/**
+	 * Add hooks.
+	 *
+	 * @return void
+	 */
+	private function hooks() {
 		add_action( 'admin_menu', [ $this, 'add_settings_page' ] );
 		add_filter(
 			'plugin_action_links_' . plugin_basename( MOD_PAGESPEED_FILE ),
@@ -229,7 +240,7 @@ class Mod_PageSpeed {
 		);
 		wp_localize_script(
 			self::HANDLE,
-			'mod_pagespeed',
+			'ModPageSpeed',
 			[
 				'ajax_url' => admin_url( 'admin-ajax.php' ),
 				'nonce'    => wp_create_nonce( self::ACTION ),
@@ -242,7 +253,7 @@ class Mod_PageSpeed {
 	 *
 	 * @return bool
 	 */
-	private function is_options_screen() {
+	private function is_options_screen(): bool {
 		$current_screen = get_current_screen();
 
 		return $current_screen && ( 'options' === $current_screen->id || self::SCREEN_ID === $current_screen->id );
@@ -276,11 +287,13 @@ class Mod_PageSpeed {
 				$checked = filter_input( INPUT_POST, 'checked', FILTER_SANITIZE_STRING );
 
 				$this->options['dev_mode'] = $checked;
+
 				if ( 'true' === $checked ) {
 					$mode = __( 'Development mode is on', 'kagg-pagespeed-module' );
 				} else {
 					$mode = __( 'Development mode is off', 'kagg-pagespeed-module' );
 				}
+
 				update_option( 'mod_pagespeed_settings', $this->options );
 				wp_send_json_success( $mode );
 				break;
@@ -396,18 +409,18 @@ class Mod_PageSpeed {
 	 *
 	 * @return bool
 	 */
-	private function is_rest() {
+	private function is_rest(): bool {
 		return defined( 'REST_REQUEST' ) && REST_REQUEST;
 	}
 
 	/**
 	 * Add link to plugin setting page on plugins page.
 	 *
-	 * @param array $links Plugin links.
+	 * @param array|mixed $links Plugin links.
 	 *
 	 * @return array Plugin links
 	 */
-	public function add_settings_link( $links ) {
+	public function add_settings_link( $links ): array {
 		$action_links = [
 			'settings' =>
 				'<a href="' . admin_url( 'options-general.php?page=' . self::PAGE ) . '" aria-label="' .
@@ -415,6 +428,6 @@ class Mod_PageSpeed {
 				esc_html__( 'Settings', 'kagg-pagespeed-module' ) . '</a>',
 		];
 
-		return array_merge( $action_links, $links );
+		return array_merge( $action_links, (array) $links );
 	}
 }
