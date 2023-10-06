@@ -271,14 +271,14 @@ class Main {
 	public function ajax_action() {
 		if (
 		! wp_verify_nonce(
-			filter_input( INPUT_POST, 'nonce', FILTER_SANITIZE_STRING ),
+			filter_input( INPUT_POST, 'nonce', FILTER_SANITIZE_FULL_SPECIAL_CHARS ),
 			self::ACTION
 		)
 		) {
 			wp_send_json_error( __( 'Bad nonce!', 'kagg-pagespeed-module' ) );
 		}
 
-		$id = filter_input( INPUT_POST, 'id', FILTER_SANITIZE_STRING );
+		$id = filter_input( INPUT_POST, 'id', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 
 		switch ( $id ) {
 			case 'purge_styles':
@@ -290,7 +290,7 @@ class Main {
 				$this->purge_link( $link );
 				break;
 			case 'dev_mode':
-				$checked = filter_input( INPUT_POST, 'checked', FILTER_SANITIZE_STRING );
+				$checked = filter_input( INPUT_POST, 'checked', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 
 				$this->options['dev_mode'] = $checked ?: 'false';
 
@@ -384,7 +384,7 @@ class Main {
 		// It is impossible to set nonce for any WordPress url.
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		$mod_pagespeed = isset( $_GET['ModPagespeed'] ) ?
-			filter_input( INPUT_GET, 'ModPagespeed', FILTER_SANITIZE_STRING ) :
+			filter_input( INPUT_GET, 'ModPagespeed', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) :
 			'';
 		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 

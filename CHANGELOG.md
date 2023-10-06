@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## 2.0.1
 * Fixed PHP warning when plugin has no settings saved.
+* Fixed deprecation message with PHP 8.
 
 ## 2.0
 * Tested with WordPress 6.3.
