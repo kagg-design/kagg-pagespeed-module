@@ -62,7 +62,6 @@ class Main {
 			2
 		);
 		add_action( 'admin_init', [ $this, 'setup_fields' ] );
-
 		add_action( 'plugins_loaded', [ $this, 'load_textdomain' ], 100 );
 		add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
 		add_action( 'wp_ajax_' . self::ACTION, [ $this, 'ajax_action' ] );
@@ -71,6 +70,8 @@ class Main {
 
 	/**
 	 * Add settings page to the menu.
+	 *
+	 * @noinspection UnusedFunctionResultInspection
 	 */
 	public function add_settings_page() {
 		$page_title = __( 'PageSpeed', 'kagg-pagespeed-module' );
@@ -81,6 +82,7 @@ class Main {
 		$icon       = MOD_PAGESPEED_URL . '/assets/images/icon-16x16.png';
 		$icon       = '<img class="ps-menu-image" src="' . $icon . '">';
 		$menu_title = $icon . '<span class="ps-menu-title">' . $menu_title . '</span>';
+
 		add_options_page( $page_title, $menu_title, $capability, $slug, $callback );
 	}
 
@@ -171,7 +173,10 @@ class Main {
 	 */
 	public function mod_pagespeed_development_section() {
 		$title    = __( 'Development Mode', 'kagg-pagespeed-module' );
-		$text     = __( 'When development mode is on, all PageSpeed cache is bypassed.<br><br>This is done by adding ?ModPagespeed=off argument to every site url.', 'kagg-pagespeed-module' );
+		$text     =
+			__( 'When development mode is on, all PageSpeed cache is bypassed.', 'kagg-pagespeed-module' ) .
+			'<br><br>' .
+			__( 'This is done by adding ?ModPagespeed=off argument to every site url.', 'kagg-pagespeed-module' );
 		$dev_mode = $this->options['dev_mode'] ?? 'false';
 
 		$active  = '';
@@ -307,15 +312,15 @@ class Main {
 	 * @param string $link a link to file or * to be purged.
 	 */
 	private function purge_link( $link ) {
-		$pagespeed_headers = [ 'x-mod-pagespeed', 'x-page-speed' ];
-
 		$result = wp_remote_request( site_url() );
+
 		if ( is_wp_error( $result ) ) {
 			wp_send_json_error( $result->get_error_message() . ' - ' . $link );
 		}
 
-		foreach ( $pagespeed_headers as $header ) {
+		foreach ( [ 'x-mod-pagespeed', 'x-page-speed' ] as $header ) {
 			$x_page_speed = wp_remote_retrieve_header( $result, $header );
+
 			if ( '' !== $x_page_speed ) {
 				break;
 			}
@@ -378,9 +383,9 @@ class Main {
 
 		// It is impossible to set nonce for any WordPress url.
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended
-		isset( $_GET['ModPagespeed'] ) ?
-			$mod_pagespeed = filter_input( INPUT_GET, 'ModPagespeed', FILTER_SANITIZE_STRING ) :
-			$mod_pagespeed = '';
+		$mod_pagespeed = isset( $_GET['ModPagespeed'] ) ?
+			filter_input( INPUT_GET, 'ModPagespeed', FILTER_SANITIZE_STRING ) :
+			'';
 		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 		if ( ( 'off' === $mod_pagespeed ) && ( 'true' === $dev_mode ) ) {
