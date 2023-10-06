@@ -5,7 +5,7 @@ Tags: PageSpeed Module, Mod PageSpeed, mod_pagespeed, Apache, Nginx, cache
 Requires at least: 4.4
 Tested up to: 6.3
 Requires PHP: 7.0
-Stable tag: 2.0
+Stable tag: 2.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
