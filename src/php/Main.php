@@ -43,7 +43,7 @@ class Main {
 	 * Init class.
 	 */
 	public function init() {
-		$this->options = get_option( 'mod_pagespeed_settings' );
+		$this->options = get_option( 'mod_pagespeed_settings', [] );
 
 		$this->hooks();
 	}
@@ -172,7 +172,7 @@ class Main {
 	public function mod_pagespeed_development_section() {
 		$title    = __( 'Development Mode', 'kagg-pagespeed-module' );
 		$text     = __( 'When development mode is on, all PageSpeed cache is bypassed.<br><br>This is done by adding ?ModPagespeed=off argument to every site url.', 'kagg-pagespeed-module' );
-		$dev_mode = $this->options['dev_mode'];
+		$dev_mode = $this->options['dev_mode'] ?? 'false';
 
 		$active  = '';
 		$checked = '';
@@ -287,13 +287,11 @@ class Main {
 			case 'dev_mode':
 				$checked = filter_input( INPUT_POST, 'checked', FILTER_SANITIZE_STRING );
 
-				$this->options['dev_mode'] = $checked;
+				$this->options['dev_mode'] = $checked ?: 'false';
 
-				if ( 'true' === $checked ) {
-					$mode = __( 'Development mode is on', 'kagg-pagespeed-module' );
-				} else {
-					$mode = __( 'Development mode is off', 'kagg-pagespeed-module' );
-				}
+				$mode = 'true' === $checked ?
+					__( 'Development mode is on', 'kagg-pagespeed-module' ) :
+					__( 'Development mode is off', 'kagg-pagespeed-module' );
 
 				update_option( 'mod_pagespeed_settings', $this->options );
 				wp_send_json_success( $mode );
@@ -376,7 +374,7 @@ class Main {
 			return;
 		}
 
-		$dev_mode = $this->options['dev_mode'];
+		$dev_mode = $this->options['dev_mode'] ?? 'false';
 
 		// It is impossible to set nonce for any WordPress url.
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended

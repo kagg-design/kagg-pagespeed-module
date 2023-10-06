@@ -45,6 +45,9 @@ If you get stuck, you can ask for help in the [PageSpeed Module Plugin Forum](ht
 
 == Changelog ==
 
+= 2.0.1 =
+* Fixed PHP warning when plugin has no settings saved.
+
 = 2.0 =
 * Tested with WordPress 6.3.
 * Dropped support of PHP 5.6. Minimum required PHP version is 7.0 now.
