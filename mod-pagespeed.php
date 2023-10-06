@@ -10,7 +10,7 @@
  * Plugin Name:          PageSpeed Module
  * Plugin URI:           https://wordpress.org/plugins/kagg-pagespeed-module/
  * Description:          Support of PageSpeed Module for Apache or Nginx.
- * Version:              2.0
+ * Version:              2.0.1
  * Requires at least:    4.4
  * Requires PHP:         7.0
  * Author:               KAGG Design
@@ -34,7 +34,7 @@ if ( defined( 'MOD_PAGESPEED_VERSION' ) ) {
 /**
  * Plugin version.
  */
-const MOD_PAGESPEED_VERSION = '2.0';
+const MOD_PAGESPEED_VERSION = '2.0.1';
 
 /**
  * Path to the plugin dir.

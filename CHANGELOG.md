@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.0.1
+* Fixed PHP warning when plugin has no settings saved.
+* Fixed deprecation message with PHP 8.
+
 ## 2.0
 * Tested with WordPress 6.3.
 * Dropped support of PHP 5.6. Minimum required PHP version is 7.0 now.
