@@ -1,7 +1,7 @@
 === PageSpeed Module ===
 Contributors: kaggdesign
 Donate link: https://kagg.eu/en/
-Tags: PageSpeed Module, Mod PageSpeed, mod_pagespeed, Apache, Nginx, cache
+Tags: PageSpeed Module, mod_pagespeed, Apache, Nginx, cache
 Requires at least: 4.4
 Tested up to: 6.3
 Requires PHP: 7.0
@@ -9,29 +9,29 @@ Stable tag: 2.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-PageSpeed Module plugin supports WordPress installation under Apache or Nginx with PageSpeed Module. PageSpeed Module is an open-source modules for Apache and Nginx created by Google to help Make the Web Faster by rewriting web pages to reduce latency and bandwidth.
+PageSpeed Module plugin supports WordPress installation under Apache or Nginx with PageSpeed Module.
 
 == Description ==
 
-PageSpeed Module plugin allows purge caches created by Apache or Nginx Module and turn on development mode for WordPress site, bypassing PageSpeed cache.
+PageSpeed Module is an open-source module for Apache and Nginx created by Google to help Make the Web Faster by rewriting web pages to reduce latency and bandwidth.
 
-Plugin has options page in the site console, with relevant buttons and controls. Please see screenshots.
+The plugin allows purge caches created by Apache or Nginx Module and turn on development mode for WordPress site, bypassing PageSpeed cache.
 
-Plugin requires PageSpeed Module to be installed with your Apache or Nginx web server. If PageSpeed Module is not installed, plugin does nothing.
+The plugin requires PageSpeed Module to be installed with your Apache or Nginx web server. If PageSpeed Module is not installed, the plugin does nothing.
 
 == Installation ==
 
 = Minimum Requirements =
 
 * PHP version 7.0 or greater (PHP 8.0 or greater is recommended)
-* MySQL version 5.0 or greater (MySQL 5.6 or greater is recommended)
+* MySQL version 5.5 or greater (MySQL 5.6 or greater is recommended)
 * PageSpeed Module for Apache or Nginx
 * In Apache config, the following directives must present:
-ModPagespeedEnableCachePurge on
-ModPagespeedPurgeMethod PURGE
+`ModPagespeedEnableCachePurge on`
+`ModPagespeedPurgeMethod PURGE`
 * In Nginx config, the following directives must present:
-pagespeed EnableCachePurge on;
-pagespeed PurgeMethod PURGE;
+`pagespeed EnableCachePurge on;`
+`pagespeed PurgeMethod PURGE;`
 
 == Frequently Asked Questions ==
 
@@ -46,12 +46,12 @@ If you get stuck, you can ask for help in the [PageSpeed Module Plugin Forum](ht
 == Changelog ==
 
 = 2.0.1 =
-* Fixed PHP warning when plugin has no settings saved.
+* Fixed PHP warning when the plugin has no settings saved.
 * Fixed deprecation message with PHP 8.
 
 = 2.0 =
 * Tested with WordPress 6.3.
-* Dropped support of PHP 5.6. Minimum required PHP version is 7.0 now.
+* Dropped support of PHP 5.6. The minimum required PHP version is 7.0 now.
 
 = 1.5 =
 * Tested with WordPress 6.0.
