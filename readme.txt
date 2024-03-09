@@ -3,7 +3,7 @@ Contributors: kaggdesign
 Donate link: https://kagg.eu/en/
 Tags: PageSpeed Module, mod_pagespeed, Apache, Nginx, cache
 Requires at least: 5.0
-Tested up to: 6.3
+Tested up to: 6.5
 Requires PHP: 7.0
 Stable tag: 2.0.1
 License: GPLv2 or later
@@ -46,6 +46,7 @@ If you get stuck, you can ask for help in the [PageSpeed Module Plugin Forum](ht
 == Changelog ==
 
 = 2.1.0 =
+* Tested with WordPress 6.5.
 * The minimum required WordPress version is now 5.0.
 
 = 2.0.1 =
