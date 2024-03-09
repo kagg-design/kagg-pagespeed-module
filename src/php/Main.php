@@ -69,9 +69,7 @@ class Main {
 	}
 
 	/**
-	 * Add settings page to the menu.
-	 *
-	 * @noinspection UnusedFunctionResultInspection
+	 * Add the settings page to the menu.
 	 */
 	public function add_settings_page() {
 		$page_title = __( 'PageSpeed', 'kagg-pagespeed-module' );
@@ -132,12 +130,12 @@ class Main {
 	 */
 	public function mod_pagespeed_purge_section() {
 		$title       = __( 'Purge Styles', 'kagg-pagespeed-module' );
-		$text        = __( 'Clear cached version of current WordPress theme style.css file.<br><br>This is useful when styles were changed.', 'kagg-pagespeed-module' );
+		$text        = __( 'Clear cached version of the current WordPress theme style.css file.<br><br>This is useful when styles were changed.', 'kagg-pagespeed-module' );
 		$button_text = __( 'Purge Styles', 'kagg-pagespeed-module' );
 		$this->card_section( $title, $text, $button_text, 'purge_styles' );
 
 		$title       = __( 'Purge Entire Cache', 'kagg-pagespeed-module' );
-		$text        = __( 'Clear entire PageSpeed cache on site. This action fetches fresh versions of all pages, images, and scripts on your website.<br><br>Please note that PageSpeed module will take some time to re-create cache after several page visits.', 'kagg-pagespeed-module' );
+		$text        = __( 'Clear the entire PageSpeed cache on site. This action fetches fresh versions of all pages, images, and scripts on your website.<br><br>Please note that PageSpeed module will take some time to re-create cache after several page visits.', 'kagg-pagespeed-module' );
 		$button_text = __( 'Purge Entire Cache', 'kagg-pagespeed-module' );
 		$this->card_section( $title, $text, $button_text, 'purge_entire_cache' );
 	}
