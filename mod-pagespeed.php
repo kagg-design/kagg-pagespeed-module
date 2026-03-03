@@ -10,9 +10,9 @@
  * Plugin Name:          PageSpeed Module
  * Plugin URI:           https://wordpress.org/plugins/kagg-pagespeed-module/
  * Description:          Support of PageSpeed Module for Apache or Nginx.
- * Version:              2.1.0
- * Requires at least:    4.4
- * Requires PHP:         7.0
+ * Version:              2.2.0
+ * Requires at least:    6.0
+ * Requires PHP:         7.4
  * Author:               KAGG Design
  * Author URI:           https://kagg.eu/en/
  * License:              GPL v2 or later
@@ -27,14 +27,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-if ( defined( 'MOD_PAGESPEED_VERSION' ) ) {
-	return;
-}
-
 /**
  * Plugin version.
  */
-const MOD_PAGESPEED_VERSION = '2.1.0';
+const MOD_PAGESPEED_VERSION = '2.2.0';
 
 /**
  * Path to the plugin dir.
@@ -54,11 +50,11 @@ const MOD_PAGESPEED_FILE = __FILE__;
 require_once MOD_PAGESPEED_PATH . '/vendor/autoload.php';
 
 /**
- * Get main class instance.
+ * Get a main class instance.
  *
  * @return Main
  */
-function kagg_pagespeed_module() {
+function kagg_pagespeed_module(): Main {
 	static $mod_pagespeed;
 
 	if ( ! $mod_pagespeed ) {

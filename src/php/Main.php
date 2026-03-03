@@ -17,33 +17,33 @@ class Main {
 	 *
 	 * @var array
 	 */
-	private $options;
+	private array $options;
 
 	/**
 	 * Admin screen id.
 	 */
-	const SCREEN_ID = 'settings_page_mod-pagespeed';
+	private const SCREEN_ID = 'settings_page_mod-pagespeed';
 
 	/**
 	 * Option page.
 	 */
-	const PAGE = 'mod-pagespeed';
+	private const PAGE = 'mod-pagespeed';
 
 	/**
 	 * Ajax action name.
 	 */
-	const ACTION = 'mod-pagespeed-action';
+	private const ACTION = 'mod-pagespeed-action';
 
 	/**
 	 * Admin script handle.
 	 */
-	const HANDLE = 'mod-pagespeed-admin';
+	private const HANDLE = 'mod-pagespeed-admin';
 
 	/**
 	 * Init class.
 	 */
-	public function init() {
-		$this->options = get_option( 'mod_pagespeed_settings', [] );
+	public function init(): void {
+		$this->options = (array) get_option( 'mod_pagespeed_settings', [] );
 
 		$this->hooks();
 	}
@@ -53,7 +53,7 @@ class Main {
 	 *
 	 * @return void
 	 */
-	private function hooks() {
+	private function hooks(): void {
 		add_action( 'admin_menu', [ $this, 'add_settings_page' ] );
 		add_filter(
 			'plugin_action_links_' . plugin_basename( MOD_PAGESPEED_FILE ),
@@ -71,7 +71,7 @@ class Main {
 	/**
 	 * Add the settings page to the menu.
 	 */
-	public function add_settings_page() {
+	public function add_settings_page(): void {
 		$page_title = __( 'PageSpeed', 'kagg-pagespeed-module' );
 		$menu_title = __( 'PageSpeed', 'kagg-pagespeed-module' );
 		$capability = 'manage_options';
@@ -87,7 +87,7 @@ class Main {
 	/**
 	 * Options page.
 	 */
-	public function mod_pagespeed_settings_page() {
+	public function mod_pagespeed_settings_page(): void {
 		?>
 		<div class="wrap">
 			<h2 id="title">
@@ -110,7 +110,7 @@ class Main {
 	/**
 	 * Setup options fields.
 	 */
-	public function setup_fields() {
+	public function setup_fields(): void {
 		add_settings_section(
 			'purge_section',
 			__( 'Purge Cache', 'kagg-pagespeed-module' ),
@@ -128,15 +128,17 @@ class Main {
 	/**
 	 * Purge Cache section.
 	 */
-	public function mod_pagespeed_purge_section() {
+	public function mod_pagespeed_purge_section(): void {
 		$title       = __( 'Purge Styles', 'kagg-pagespeed-module' );
-		$text        = __( 'Clear cached version of the current WordPress theme style.css file.<br><br>This is useful when styles were changed.', 'kagg-pagespeed-module' );
+		$text        = __( 'Clear cached version of the current WordPress theme style.css file.<br><br>This is useful when styles are changed.', 'kagg-pagespeed-module' );
 		$button_text = __( 'Purge Styles', 'kagg-pagespeed-module' );
+
 		$this->card_section( $title, $text, $button_text, 'purge_styles' );
 
 		$title       = __( 'Purge Entire Cache', 'kagg-pagespeed-module' );
-		$text        = __( 'Clear the entire PageSpeed cache on site. This action fetches fresh versions of all pages, images, and scripts on your website.<br><br>Please note that PageSpeed module will take some time to re-create cache after several page visits.', 'kagg-pagespeed-module' );
+		$text        = __( 'Clear the entire PageSpeed cache on site. This action fetches fresh versions of all pages, images, and scripts on your website.<br><br>Please note that the PageSpeed module will take some time to re-create the cache after several page visits.', 'kagg-pagespeed-module' );
 		$button_text = __( 'Purge Entire Cache', 'kagg-pagespeed-module' );
+
 		$this->card_section( $title, $text, $button_text, 'purge_entire_cache' );
 	}
 
@@ -148,7 +150,7 @@ class Main {
 	 * @param string $button_text Button text.
 	 * @param string $button_id   Button id.
 	 */
-	private function card_section( $title, $text, $button_text, $button_id ) {
+	private function card_section( string $title, string $text, string $button_text, string $button_id ): void {
 		?>
 		<section class="ps-card">
 			<div class="ps-card-section">
@@ -169,7 +171,7 @@ class Main {
 	/**
 	 * Development Mode section.
 	 */
-	public function mod_pagespeed_development_section() {
+	public function mod_pagespeed_development_section(): void {
 		$title    = __( 'Development Mode', 'kagg-pagespeed-module' );
 		$text     =
 			__( 'When development mode is on, all PageSpeed cache is bypassed.', 'kagg-pagespeed-module' ) .
@@ -200,6 +202,7 @@ class Main {
 			</div>
 		</section>
 		<?php
+
 		echo '<div id="ps-success"></div>';
 		echo '<div id="ps-error"></div>';
 	}
@@ -207,7 +210,7 @@ class Main {
 	/**
 	 * Load plugin text domain.
 	 */
-	public function load_textdomain() {
+	public function load_textdomain(): void {
 		load_plugin_textdomain(
 			'kagg-pagespeed-module',
 			false,
@@ -218,7 +221,7 @@ class Main {
 	/**
 	 * Enqueue plugin scripts.
 	 */
-	public function admin_enqueue_scripts() {
+	public function admin_enqueue_scripts(): void {
 		if ( ! is_admin() ) {
 			return;
 		}
@@ -266,7 +269,7 @@ class Main {
 	/**
 	 * Process ajax request.
 	 */
-	public function ajax_action() {
+	public function ajax_action(): void {
 		if (
 		! wp_verify_nonce(
 			filter_input( INPUT_POST, 'nonce', FILTER_SANITIZE_FULL_SPECIAL_CHARS ),
@@ -307,9 +310,9 @@ class Main {
 	/**
 	 * Purge cache for $link.
 	 *
-	 * @param string $link a link to file or * to be purged.
+	 * @param string $link a link to the file or * to be purged.
 	 */
-	private function purge_link( $link ) {
+	private function purge_link( string $link ): void {
 		$result = wp_remote_request( site_url() );
 
 		if ( is_wp_error( $result ) ) {
@@ -372,7 +375,7 @@ class Main {
 	/**
 	 * For any site url, add or remove ?ModPagespeed argument.
 	 */
-	public function mod_pagespeed_arg() {
+	public function mod_pagespeed_arg(): void {
 		if ( wp_doing_ajax() || is_admin() || $this->is_rest() ) {
 			return;
 		}
@@ -416,7 +419,7 @@ class Main {
 	}
 
 	/**
-	 * Add link to plugin setting page on plugins page.
+	 * Add a link to the plugin setting page on the plugins page.
 	 *
 	 * @param array|mixed $links Plugin links.
 	 *
