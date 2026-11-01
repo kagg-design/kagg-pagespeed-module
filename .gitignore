@@ -3,6 +3,8 @@
 vendor/
 
 *.lock
+!composer.lock
+/build/
 .DS_Store
 .phpcs.cache
 .phpunit.result.cache

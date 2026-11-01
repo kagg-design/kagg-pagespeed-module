@@ -1,32 +1,85 @@
-name: Pagespeed Module CI
-on: [ push, pull_request ]
+name: PageSpeed Module CI
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '**/*.php'
+      - 'composer.*'
+      - 'phpcs.xml'
+      - 'assets/js/**'
+      - 'tests/**'
+      - '.github/**'
+      - '.githooks/**'
+      - '.gitattributes'
+      - '.distignore'
+      - 'readme.txt'
+      - 'changelog.txt'
+  pull_request:
+    paths:
+      - '**/*.php'
+      - 'composer.*'
+      - 'phpcs.xml'
+      - 'assets/js/**'
+      - 'tests/**'
+      - '.github/**'
+      - '.githooks/**'
+      - '.gitattributes'
+      - '.distignore'
+      - 'readme.txt'
+      - 'changelog.txt'
+
+permissions:
+  contents: read
+
 concurrency:
-  group: ${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
-  cs_and_tests:
-    strategy:
-      matrix:
-        os: [ ubuntu-latest ]
-        php-version: [ '7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5' ]
-
-    runs-on: ${{ matrix.os }}
-
-    name: PHP ${{ matrix.php-version }} on ${{ matrix.os }}
-
+  phpcs:
+    name: PHP coding standards
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          coverage: none
+      - uses: ramsey/composer-install@v4
+      - run: composer validate --strict
+      - run: composer audit --locked
+      - run: composer phpcs
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+  php:
+    name: PHP ${{ matrix.php-version }} checks
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # Every PR, including same-repository PRs, runs all supported stable PHP versions.
+        php-version: ${{ fromJSON(github.event_name != 'push' && '["7.4","8.0","8.1","8.2","8.3","8.4","8.5"]' || '["7.4","8.5"]') }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
-          extensions: json, mysqli, mbstring, zip
+          coverage: none
+      - uses: ramsey/composer-install@v4
+      - run: composer check-platform-reqs
+      - name: PHP syntax
+        run: find . -name '*.php' -not -path './vendor/*' -not -path './build/*' -print0 | xargs -0 -n1 php -l
+      - run: composer test:changelog
+      - run: composer changelog:check
 
-      - name: Install dependencies with caching
-        uses: ramsey/composer-install@v3
-
-      - name: Run code sniffer
-        run: composer phpcs
+  js:
+    name: JavaScript syntax
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - run: node --check assets/js/admin.js

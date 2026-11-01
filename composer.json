@@ -22,20 +22,23 @@
   "support": {
     "issues": "https://wordpress.org/support/plugin/kagg-pagespeed-module/"
   },
-  "minimum-stability": "dev",
   "prefer-stable": true,
   "config": {
+    "platform": {
+      "php": "7.4.33"
+    },
     "allow-plugins": {
-      "kylekatarnls/update-helper": true,
       "dealerdirect/phpcodesniffer-composer-installer": true
     }
   },
+  "require": {
+    "php": ">=7.4"
+  },
   "require-dev": {
-    "roave/security-advisories": "dev-latest",
     "squizlabs/php_codesniffer": "^3.13.5",
     "phpcompatibility/php-compatibility": "^9.3.5",
     "phpcompatibility/phpcompatibility-wp": "^2.1.8",
-    "wp-coding-standards/wpcs": "^3.3.0"
+    "wp-coding-standards/wpcs": "^3.4.1"
   },
   "autoload": {
     "psr-4": {
@@ -43,6 +46,9 @@
     }
   },
   "scripts": {
-    "phpcs": "phpcs --colors --standard=phpcs.xml"
+    "phpcs": "phpcs --colors --standard=phpcs.xml",
+    "changelog": "@php .github/scripts/update-changelog.php",
+    "changelog:check": "@php .github/scripts/update-changelog.php --check",
+    "test:changelog": "@php tests/php/changelog.php"
   }
 }

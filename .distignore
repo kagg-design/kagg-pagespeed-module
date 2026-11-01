@@ -16,10 +16,14 @@
 /composer.json
 /composer.lock
 /phpcs.xml
+/.gitattributes
 
 # Directories
 /.git
 /.github
+/.githooks
 /.idea
 /.make
 /.wordpress-org
+/build
+/tests
