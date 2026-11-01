@@ -49,4 +49,21 @@ If you get stuck, you can ask for help in the [PageSpeed Module Plugin Forum](ht
 * Tested with WordPress 7.1.4.
 * Updated development dependencies, release tooling, and CI checks.
 
+= 2.2.0 =
+* The minimal required PHP version is now 7.4.
+* The minimum required WordPress version is now 6.0.
+* Tested with WordPress 6.9.
+
+= 2.1.0 =
+* Tested with WordPress 6.5.
+* The minimum required WordPress version is now 5.0.
+
+= 2.0.1 =
+* Fixed PHP warning when the plugin has no settings saved.
+* Fixed deprecation message with PHP 8.
+
+= 2.0 =
+* Tested with WordPress 6.3.
+* Dropped support of PHP 5.6. The minimum required PHP version is now 7.0.
+
 [See changelog for all versions](https://github.com/kagg-design/kagg-pagespeed-module/blob/master/changelog.txt).

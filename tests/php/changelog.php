@@ -5,6 +5,8 @@
  * @package kagg-pagespeed-module
  */
 
+/** @noinspection PhpUndefinedFunctionInspection */
+
 require dirname( __DIR__, 2 ) . '/.github/scripts/update-changelog.php';
 
 $readme  = "== Changelog ==\n\n= 2.3.0 =\n* Release preparation.\n\n[See changelog for all versions](https://example.org/changelog.txt).\n\n== Upgrade Notice ==\nOther text.\n";
@@ -25,6 +27,7 @@ if ( $expect !== kagg_pagespeed_generate_changelog( str_replace( "\n", "\r\n", $
 }
 
 $updated = str_replace( '* Release preparation.', '* Updated notes.', $readme );
+
 if ( str_replace( '* Release preparation.', '* Updated notes.', $expect ) !== kagg_pagespeed_generate_changelog( $updated, $actual ) ) {
 	throw new RuntimeException( 'The current release must be replaced without duplication.' );
 }

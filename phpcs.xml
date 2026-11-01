@@ -5,6 +5,7 @@
 	<!-- What to scan -->
 	<file>.</file>
 	<!-- Exclude all dirs except needed -->
+	<exclude-pattern>^(?!.*/kagg-pagespeed-module).*</exclude-pattern>
 	<exclude-pattern>*/\.git/*</exclude-pattern>
 	<exclude-pattern>*/\.github/*</exclude-pattern>
 	<exclude-pattern>*/tests/*</exclude-pattern>

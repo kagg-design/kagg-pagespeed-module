@@ -35,8 +35,9 @@ and records them in `composer.lock`; the plugin version comes from Git tags.
 JavaScript has no package manager or build step; check it with
 `node --check assets/js/admin.js`.
 
-Keep the latest release notes in `readme.txt` and run `composer changelog` to
-update `changelog.txt`, preserving older releases. The shell entrypoint is
+Keep notes for every release in the current major series, including minor and
+patch releases, in `readme.txt`. Run `composer changelog` to update
+`changelog.txt`, preserving the complete history across all major versions. The shell entrypoint is
 `.github/scripts/update-changelog.sh`. Optional Git hooks can be enabled with
 `git config core.hooksPath .githooks`. If necessary, configure the PHP executable
 for shell scripts with `git config pagespeed.phpPath /path/to/php`.
