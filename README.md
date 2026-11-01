@@ -9,9 +9,10 @@ PageSpeed Module plugin supports WordPress installation under Apache or Nginx wi
 The WordPress Plugin PageSpeed Module includes the following files:
 
 * `.gitignore`. Used to exclude certain files from the repository.
-* `CHANGELOG.md`. The list of changes to the core project.
+* `readme.txt`. The current release notes and WordPress.org metadata.
+* `changelog.txt`. The generated release notes and archived history.
 * `README.md`. The file that you’re currently reading.
-* A `plugin-name` directory that contains the source code - a fully executable WordPress plugin.
+* `mod-pagespeed.php`, `src/`, `assets/`, and `languages/`. The plugin source and assets.
 
 ## Features
 
@@ -23,6 +24,23 @@ The WordPress Plugin PageSpeed Module includes the following files:
 ## Installation
 
 The PageSpeed Module can be installed directly into your plugins folder "as-is".
+
+For a source checkout, run `composer install --no-dev --optimize-autoloader` first.
+
+## Development and release notes
+
+Run `composer install`, `composer audit --locked`, `composer phpcs`, `composer test:changelog`, and
+`composer changelog:check` before committing. Composer resolves tools for PHP 7.4
+and records them in `composer.lock`; the plugin version comes from Git tags.
+JavaScript has no package manager or build step; check it with
+`node --check assets/js/admin.js`.
+
+Keep notes for every release in the current major series, including minor and
+patch releases, in `readme.txt`. Run `composer changelog` to update
+`changelog.txt`, preserving the complete history across all major versions. The shell entrypoint is
+`.github/scripts/update-changelog.sh`. Optional Git hooks can be enabled with
+`git config core.hooksPath .githooks`. If necessary, configure the PHP executable
+for shell scripts with `git config pagespeed.phpPath /path/to/php`.
 
 ## WordPress.org Preparation
 

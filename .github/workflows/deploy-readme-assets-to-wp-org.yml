@@ -3,13 +3,27 @@ on:
   push:
     branches:
       - trunk
+    paths:
+      - 'readme.txt'
+      - '.wordpress-org/**'
+      - '.github/workflows/deploy-readme-assets-to-wp-org.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: wordpress-org-assets
+  cancel-in-progress: false
+
 jobs:
   trunk:
     name: Push to trunk
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Install SVN
         run: sudo apt-get update && sudo apt-get install -y subversion
