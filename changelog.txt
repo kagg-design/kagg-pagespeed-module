@@ -1,3 +1,6 @@
+= 2.4.0 =
+* Compatible with WordPress 7.2.
+
 = 2.3.0 =
 * Tested with WordPress 7.1.4.
 * Updated development dependencies, release tooling, and CI checks.
