@@ -1,12 +1,12 @@
 <?php
 /**
- * Generate changelog.txt from the latest readme.txt release notes.
+ * Generate changelog.txt from the readme.txt release notes and archived history.
  *
  * @package kagg-pagespeed-module
  */
 
 /**
- * Replace the latest release section while preserving the archived history.
+ * Merge the readme release notes with the archived history.
  *
  * @param string $readme    Readme content.
  * @param string $changelog Changelog content.
@@ -22,19 +22,20 @@ function kagg_pagespeed_generate_changelog( string $readme, string $changelog ):
 		throw new RuntimeException( 'No Changelog section found in readme.txt.' );
 	}
 
-	$heading = '^= ([0-9]+\.[0-9]+\.[0-9]+(?:-[^\s=]+)?) =[ \t]*$';
+	$release_pattern = '/^= ([0-9]+\.[0-9]+(?:\.[0-9]+)?(?:-[^\s=]+)?) =[ \t]*$\n.*?(?=^= [^=\n]+ =[ \t]*$|^\[See changelog for all versions\]|\z)/ms';
 
-	if ( ! preg_match( '/' . $heading . '\n(.*?)(?=^= [^=\n]+ =[ \t]*$|^\[See changelog for all versions\]|\z)/ms', $section[1], $release ) ) {
+	if ( ! preg_match_all( $release_pattern, $section[1], $readme_releases, PREG_SET_ORDER ) ) {
 		throw new RuntimeException( 'No release notes found in readme.txt.' );
 	}
 
-	$history = preg_replace(
-		'/^= ' . preg_quote( $release[1], '/' ) . ' =[ \t]*$\n.*?(?=^= [^=\n]+ =[ \t]*$|\z)/ms',
-		'',
-		$changelog
-	);
+	preg_match_all( $release_pattern, $changelog, $archived_releases, PREG_SET_ORDER );
 
-	return rtrim( '= ' . $release[1] . " =\n" . trim( $release[2] ) . "\n\n" . ltrim( $history, "\n" ), "\n" ) . "\n";
+	$releases = array_column( $readme_releases, 0, 1 ) + array_column( $archived_releases, 0, 1 );
+	uksort( $releases, static function ( string $first, string $second ): int {
+		return version_compare( $second, $first );
+	} );
+
+	return implode( "\n\n", array_map( 'rtrim', $releases ) ) . "\n";
 }
 
 /**

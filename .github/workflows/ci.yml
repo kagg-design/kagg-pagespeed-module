@@ -59,7 +59,7 @@ jobs:
       fail-fast: false
       matrix:
         # Every PR, including same-repository PRs, runs all supported stable PHP versions.
-        php-version: ${{ fromJSON(github.event_name != 'push' && '["7.4","8.0","8.1","8.2","8.3","8.4","8.5"]' || '["7.4","8.5"]') }}
+        php-version: ${{ fromJSON(github.event_name != 'push' && '["7.4","8.0","8.1","8.2","8.3","8.4","8.5","8.6"]' || '["7.4","8.6"]') }}
     steps:
       - uses: actions/checkout@v7
         with:
